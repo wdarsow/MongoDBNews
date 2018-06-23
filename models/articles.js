@@ -18,7 +18,7 @@ const MongoNewsSchema = new Schema({
 
     notes: {
         type: Schema.Types.ObjectId,
-        ref: "Notes"
+        ref: "notes"
     }
 });
 

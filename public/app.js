@@ -19,6 +19,8 @@ $("#scrapenow").on("click", function() {
     console.log("scraping worked");
 });
 
+
+/*
 // when someone clicks an article / p tag the following function executes
 $(document).on("click", "p", function() {
     // Empty the notes from the note section
@@ -26,6 +28,9 @@ $(document).on("click", "p", function() {
     // Save the id from the p tag
     var thisId = $(this).attr("data-id");
   
+
+    
+
     // Now make an ajax call for the Article
     $.ajax({
       method: "GET",
@@ -82,3 +87,4 @@ $(document).on("click", "p", function() {
     $("#bodyinput").val("");
   });
   
+  */
