@@ -30,26 +30,34 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
 
-mongoose.connect('mongodb://localhost/mongodbnews');
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongodbnews";
+
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
+
+// mongoose.connect('mongodb://localhost/mongodbnews');
 
 // route for scraping and then creating associated database entries
 app.get("/scraping", function(req, res) {
-    axios.get("http://www.echojs.com/")
+    axios.get("https://www.npr.org/sections/technology/")
     .then(function(response) {
+
+       // $('class.headline').each
+        console.log(response)
         const $ = cheerio.load(response.data);
        res.send(response.data)
 
-    $("article h2").each(function(i, element) {
+    $("div h2").each(function(i, element) {
 
         // empty result object 
         let result = {};
-
-        result.title = $(this)
-            .children("a")
-            .text();
-        result.link = $(this)
-            .children("a")
-            .attr("href");
+        console.log(result)
+         result.title = $(this)
+             .children("a")
+             .text();
+         result.link = $(this)
+             .children("a")
+             .attr("href");
 
         console.log("result title = " + result.title + " result link = " + result.link);
     // console.log(result);
@@ -91,7 +99,7 @@ app.get("/articles/:id", function(req, res) {
     })
 })
 
-// this route saves / updates and articles's note
+// route for saving / updating an article's note
 app.post("/articles/:id", function(req, res) {
     db.Notes.create(req.body)
     .then(function(dbNote) {
